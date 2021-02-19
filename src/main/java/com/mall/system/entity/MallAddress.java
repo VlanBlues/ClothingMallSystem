@@ -23,7 +23,7 @@ public class MallAddress implements Serializable {
     @TableId(value = "addr_id", type = IdType.AUTO)
     private Integer addrId;
 
-    /**
+    /**https://gitee.com/qiguliuxing/dts-shop/tree/master
      * 收货人名称
      */
     private String name;
