@@ -1,6 +1,7 @@
 package com.mall.system.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
@@ -20,8 +21,8 @@ public class MallAddress implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "addr_id", type = IdType.AUTO)
-    private Integer addrId;
+    @TableId(value = "address_id", type = IdType.AUTO)
+    private Integer addressId;
 
     /**https://gitee.com/qiguliuxing/dts-shop/tree/master
      * 收货人名称
@@ -78,5 +79,7 @@ public class MallAddress implements Serializable {
      */
     private Boolean deleted;
 
+    @TableField(exist = false)
+    private MallUser user;
 
 }

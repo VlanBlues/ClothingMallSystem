@@ -56,6 +56,7 @@ public class MallAdminController {
         if(adminService.count(wrapper) > 1){
             return Result.fail("用户名已存在");
         }
+        admin.setAddTime(DateUtil.getStringDate());
         if(adminService.save(admin)){
             return Result.success("注册成功！");
         }

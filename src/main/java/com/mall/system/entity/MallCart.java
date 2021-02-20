@@ -29,9 +29,9 @@ public class MallCart implements Serializable {
     private Integer userId;
 
     /**
-     * 货物id
+     * 货物sn码
      */
-    private Integer goodsId;
+    private String goodsSn;
 
     /**
      * 数量

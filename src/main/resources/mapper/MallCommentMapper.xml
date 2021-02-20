@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mall.system.mapper.MallCommentMapper">
+    <resultMap id="CommentResult" type="com.mall.system.entity.MallComment">
+        <id column="comment_id" property="commentId"/>
+        <result column="content" property="content"/>
+        <result column="user_id" property="userId"/>
+        <result column="order_id" property="orderId"/>
+        <result column="order_goods_id" property="orderGoodsId"/>
+        <result column="star" property="star"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <association property="goods" javaType="com.mall.system.entity.MallOrder"
+                     resultMap="com.mall.system.mapper.MallGoodsMapper.OrderResultMap"/>
+        <association property="user" javaType="com.mall.system.entity.MallUser"
+                     resultMap="com.mall.system.mapper.MallUserMapper.UserResultMap"/>
+    </resultMap>
+    <select id="listComment" resultMap="CommentResult">
+        select
+            a.*,
+            c.*,
+            d.*
+        from mall_comment a
+            left join mall_order_goods b
+                on a.order_goods_id = b.id
+            left join mall_goods c
+                on c.goods_sn = b.goods_sn
+            left join mall_user d
+                on a.user_id = d.user_id
+        where a.deleted != 1 
+              and b.deleted != 1 
+              and c.deleted != 1 
+              and d.deleted != 1
+    </select>
 
 </mapper>

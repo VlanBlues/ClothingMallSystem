@@ -1,6 +1,7 @@
 package com.mall.system.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
@@ -34,6 +35,16 @@ public class MallComment implements Serializable {
     private Integer userId;
 
     /**
+     * 订单id
+     */
+    private Integer orderId;
+
+    /**
+     * 订单货物id
+     */
+    private Integer orderGoodsId;
+
+    /**
      * 评分， 1-5
      */
     private Integer star;
@@ -52,6 +63,12 @@ public class MallComment implements Serializable {
      * 逻辑删除
      */
     private Boolean deleted;
+
+    @TableField(exist = false)
+    private MallGoods goods;
+
+    @TableField(exist = false)
+    private MallUser user;
 
 
 }

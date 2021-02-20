@@ -2,6 +2,7 @@ package com.mall.system.service;
 
 import com.mall.system.entity.MallAddress;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mall.system.util.Result;
 
 /**
  * <p>
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-02-19
  */
 public interface IMallAddressService extends IService<MallAddress> {
-
+    Result listAddress(Integer current,Integer size);
 }

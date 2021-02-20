@@ -2,6 +2,9 @@ package com.mall.system.service;
 
 import com.mall.system.entity.MallComment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mall.system.util.Result;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-02-19
  */
 public interface IMallCommentService extends IService<MallComment> {
-
+    Result listComment(Integer current, Integer size);
 }

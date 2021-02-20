@@ -1,7 +1,10 @@
 package com.mall.system.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.system.entity.MallComment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-02-19
  */
 public interface MallCommentMapper extends BaseMapper<MallComment> {
-
+    List<MallComment> listComment(Page<MallComment> mallCommentPage);
 }

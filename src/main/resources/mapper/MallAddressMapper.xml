@@ -2,4 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mall.system.mapper.MallAddressMapper">
 
+    <resultMap id="MallAddressResultMap" type="com.mall.system.entity.MallAddress">
+        <id column="address_id" property="addressId"/>
+        <result column="name" property="name"/>
+        <result column="user_id" property="userId"/>
+        <result column="province_id" property="provinceId"/>
+        <result column="city_id" property="cityId"/>
+        <result column="area_id" property="areaId"/>
+        <result column="address" property="address"/>
+        <result column="mobile" property="mobile"/>
+        <result column="is_default" property="isDefault"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="user" property="user"/>
+        <association property="user" javaType="com.mall.system.entity.MallAddress"
+                     resultMap="com.mall.system.mapper.MallUserMapper.UserResultMap"/>
+    </resultMap>
+    <select id="listAddress" resultType="com.mall.system.entity.MallAddress">
+      select *
+        from mall_address a 
+            left join mall_user b
+                on a.user_id = b.user_id
+        where a.deleted != 1 and b.deleted != 1
+    </select>
 </mapper>
