@@ -1,10 +1,8 @@
 package com.mall.system.util;
 
 
-import com.mall.system.entity.MallAddress;
-import com.mall.system.entity.MallComment;
+import com.mall.system.entity.MallGoods;
 import com.mall.system.entity.MallOrder;
-import com.mall.system.entity.MallUser;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -107,7 +105,7 @@ public class MybatisGetResultMapUtil {
         //所有属性
         System.out.println("------------------------------------------------------------------------");
         System.out.println(getAllField(a.getClass()));*/
-        MallAddress a = new MallAddress();
+        MallGoods a = new MallGoods();
         System.out.println(getResultMap(a.getClass()));
     }
 

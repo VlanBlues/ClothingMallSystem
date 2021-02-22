@@ -1,5 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mall.system.mapper.MallOrderMapper">
+    <resultMap id="OrderResultMap" type="com.mall.system.entity.MallOrder">
+        <id column="order_id" property="orderId"/>
+        <result column="user_id" property="userId"/>
+        <result column="order_sn" property="orderSn"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="message" property="message"/>
+        <result column="order_price" property="orderPrice"/>
+        <result column="ship_time" property="shipTime"/>
+        <result column="ship_sn" property="shipSn"/>
+        <result column="confirm_time" property="confirmTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <association property="user" javaType="com.mall.system.entity.MallOrder"
+                     resultMap="com.mall.system.mapper.MallUserMapper.UserResultMap"/>
+        <collection property="goodsList" javaType="java.util.ArrayList" ofType="com.mall.system.entity.MallGoods"
+                    select="com.mall.system.mapper.MallGoodsMapper.queryByOrderSn" column="{orderSn=order_sn}"/>
+    </resultMap>
 
+    <select id="listByUserId" resultMap="OrderResultMap">
+        select a.*,
+            b.user_id u_user_id,
+            b.add_time u_add_time,
+            b.update_time u_update_time,
+            b.deleted u_deleted,
+            b.username,b.gender,
+            b.birthday,b.nickname,
+            b.mobile,b.avatar
+        from mall_order a 
+            left join mall_user b 
+                on a.user_id = b.user_id
+        where a.user_id = #{userId} and a.deleted != 1 and b.deleted != 1
+    </select>
 </mapper>

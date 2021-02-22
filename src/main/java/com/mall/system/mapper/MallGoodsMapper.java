@@ -2,6 +2,9 @@ package com.mall.system.mapper;
 
 import com.mall.system.entity.MallGoods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-02-19
  */
 public interface MallGoodsMapper extends BaseMapper<MallGoods> {
-
+    List<MallGoods> queryByOrderSn(@Param("orderSn") String orderSn);
 }

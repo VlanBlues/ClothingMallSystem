@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,7 +15,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author lan
- * @since 2021-02-19
+ * @since 2021-02-22
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,7 +26,7 @@ public class MallAddress implements Serializable {
     @TableId(value = "address_id", type = IdType.AUTO)
     private Integer addressId;
 
-    /**https://gitee.com/qiguliuxing/dts-shop/tree/master
+    /**
      * 收货人名称
      */
     private String name;
@@ -81,5 +83,4 @@ public class MallAddress implements Serializable {
 
     @TableField(exist = false)
     private MallUser user;
-
 }

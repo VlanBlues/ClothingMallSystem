@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mall.system.mapper.MallUserMapper">
     <resultMap id="UserResultMap" type="com.mall.system.entity.MallUser">
-        <id column="user_id" property="userId" />
+        <id column="u_user_id" property="userId" />
         <result column="username" property="username" />
         <result column="gender" property="gender" />
         <result column="birthday" property="birthday" />
@@ -12,8 +12,8 @@
         <result column="mobile" property="mobile" />
         <result column="avatar" property="avatar" />
         <result column="status" property="status" />
-        <result column="add_time" property="addTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="deleted" property="deleted" />
+        <result column="u_add_time" property="addTime" />
+        <result column="u_update_time" property="updateTime" />
+        <result column="u_deleted" property="deleted" />
     </resultMap>
 </mapper>

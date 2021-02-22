@@ -3,6 +3,7 @@ package com.mall.system.mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.system.entity.MallComment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

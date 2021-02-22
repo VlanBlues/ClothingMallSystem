@@ -31,6 +31,11 @@ public class MallOrderGoods implements Serializable {
     private String goodsSn;
 
     /**
+     * 数量
+     */
+    private Integer num;
+
+    /**
      * 添加时间
      */
     private String addTime;

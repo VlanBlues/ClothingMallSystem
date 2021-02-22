@@ -10,8 +10,8 @@ import com.mall.system.util.Result;
  * </p>
  *
  * @author lan
- * @since 2021-02-19
+ * @since 2021-02-22
  */
 public interface IMallAddressService extends IService<MallAddress> {
-    Result listAddress(Integer current,Integer size);
+    Result listAddress(Integer current, Integer size);
 }

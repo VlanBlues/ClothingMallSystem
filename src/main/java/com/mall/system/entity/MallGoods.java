@@ -50,6 +50,11 @@ public class MallGoods implements Serializable {
     private String brief;
 
     /**
+     * 商品剩余数量
+     */
+    private Integer num;
+
+    /**
      * 商品页面商品图片
      */
     private String picUrl;

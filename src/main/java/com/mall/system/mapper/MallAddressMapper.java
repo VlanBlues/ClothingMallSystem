@@ -12,8 +12,8 @@ import java.util.List;
  * </p>
  *
  * @author lan
- * @since 2021-02-19
+ * @since 2021-02-22
  */
 public interface MallAddressMapper extends BaseMapper<MallAddress> {
-    List<MallAddress> listAddress(Page<MallAddress> mallCommentPage);
+    List<MallAddress> listAddress(Page<MallAddress> mallAddressPage);
 }

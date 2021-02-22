@@ -17,14 +17,13 @@ import java.util.List;
  * </p>
  *
  * @author lan
- * @since 2021-02-19
+ * @since 2021-02-22
  */
 @Service
 public class MallAddressServiceImpl extends ServiceImpl<MallAddressMapper, MallAddress> implements IMallAddressService {
-
     @Resource
     private MallAddressMapper addressMapper;
-    
+
     @Override
     public Result listAddress(Integer current, Integer size) {
         Page<MallAddress> page = new Page<>(current,size);

@@ -2,8 +2,11 @@ package com.mall.system.entity;
 
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -83,6 +86,15 @@ public class MallOrder implements Serializable {
      * 逻辑删除
      */
     private Boolean deleted;
+
+    @TableField(exist = false)
+    private List<MallOrderGoods> orderGoodsList;
+    
+    @TableField(exist = false)
+    private List<MallGoods> goodsList;
+
+    @TableField(exist = false)
+    private MallUser user;
 
 
 }

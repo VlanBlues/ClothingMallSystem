@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  * </p>
  *
  * @author lan
- * @since 2021-02-19
+ * @since 2021-02-22
  */
 @RestController
 @RequestMapping("/address")
@@ -54,7 +54,7 @@ public class MallAddressController {
     }
 
     /**
-     * 
+     *
      * @param current 当前页
      * @param size 一页大小
      * @return 地址列表
@@ -72,4 +72,5 @@ public class MallAddressController {
         }
         return Result.fail("地址修改失败！");
     }
+
 }
