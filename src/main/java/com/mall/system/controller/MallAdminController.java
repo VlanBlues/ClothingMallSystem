@@ -10,6 +10,7 @@ import com.mall.system.service.IMallAdminService;
 import com.mall.system.util.DateUtil;
 import com.mall.system.util.EncryptUtil;
 import com.mall.system.util.Result;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -31,19 +32,27 @@ public class MallAdminController {
     private IMallAdminService adminService;
     
     @RequestMapping("/login")
-    public Result login(MallAdmin admin){
+    public Result login(@RequestBody MallAdmin admin){
         admin.setPassword(EncryptUtil.Base64Encode(admin.getPassword().trim()));
         QueryWrapper<MallAdmin> wrapper = new QueryWrapper<>();
         wrapper.eq("username",admin.getUsername()).eq("password",admin.getPassword())
                 .ne("deleted",1);
-        int count = adminService.count(wrapper);
-        if(count>0){
+        MallAdmin queryAdmin = adminService.getOne(wrapper);
+        if(queryAdmin.getUsername() != null){
             UpdateWrapper<MallAdmin> updateWrapper = new UpdateWrapper<>();
             updateWrapper.eq("username",admin.getUsername()).set("last_login_time",DateUtil.getStringDate());
             adminService.update(updateWrapper);
-            return Result.success("登录成功!","eca6948a-fcb3-4e1a-bf9d-ab4a0be907cc");
+            return Result.success("登录成功!",queryAdmin);
         }
         return Result.fail("用户名或密码错误！");
+    }
+    
+    @RequestMapping("/info")
+    public Result getAdminInfo(String username){
+        QueryWrapper<MallAdmin> adminQueryWrapper = new QueryWrapper<>();
+        adminQueryWrapper.eq("username",username);
+        MallAdmin admin = adminService.getOne(adminQueryWrapper);
+        return Result.success(admin);
     }
     
     //添加管理员
