@@ -1,7 +1,6 @@
 package com.mall.system.config;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.WebUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Author: Vlan
- * Date: 2021/2/23 10:37
+ * 全局跨域放开
+ *
+ * @author wliduo[i@dolyw.com]
+ * @date 2019/11/26 14:29
  */
 @Component
 public class OriginFilter implements Filter {
@@ -24,7 +25,7 @@ public class OriginFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
         httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+        httpServletResponse.setHeader("Access-control-Allow-Origin", "*");
         httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
         filterChain.doFilter(request, response);
     }

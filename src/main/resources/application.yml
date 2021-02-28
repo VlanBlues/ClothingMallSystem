@@ -1,7 +1,7 @@
 server:
   port: 8089
 imgLocal:
-  file: F:/img/file/
+  file: W:/img/
 spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -12,7 +12,7 @@ spring:
     druid:
       url: jdbc:mysql://127.0.0.1:3306/clothing_mall?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
       username: root
-      password: 
+      password: 123456
       #初始化大小
       initialSize: 5
       #最小值
@@ -76,7 +76,7 @@ spring:
 #        max-wait: -1ms  #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
 #        min-idle: 0     #最小等待连接中的数量,设 0 为没有限制
 #      shutdown-timeout: 100ms
-#    password: 
+#    password:
 #    port: 6379
 
 #mybatis plus设置

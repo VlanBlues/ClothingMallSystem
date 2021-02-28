@@ -25,9 +25,9 @@ public class MallAddressServiceImpl extends ServiceImpl<MallAddressMapper, MallA
     private MallAddressMapper addressMapper;
 
     @Override
-    public Result listAddress(Integer current, Integer size) {
+    public Result listAddress(String userId,String name,Integer current, Integer size) {
         Page<MallAddress> page = new Page<>(current,size);
-        List<MallAddress> mallAddresses = addressMapper.listAddress(page);
+        Page<MallAddress> mallAddresses = addressMapper.listAddress(userId,name,page);
         return Result.success(mallAddresses);
     }
 }

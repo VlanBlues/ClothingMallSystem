@@ -79,10 +79,10 @@ public class FileUploadImpl implements FileUploadService {
         // 存储路径
         String fileName = UUIDUtil.getUUID() + fileType;
         String fileAbsolutePath = path + fileName;
-        if(saveFile(fileAbsolutePath, file)){
-            String fileRelativePath = "localhost:8089/img/"+fileName;
-            return Result.success("上传成功！",fileRelativePath);
-        }else {
+        if (saveFile(fileAbsolutePath, file)) {
+            String fileRelativePath = "http://localhost:8089/img/" + fileName;
+            return Result.success("上传成功！", fileRelativePath);
+        } else {
             return Result.fail("文件保存失败！");
         }
     }
@@ -106,13 +106,13 @@ public class FileUploadImpl implements FileUploadService {
             fileName = UUIDUtil.getUUID() + fileType;
             // 存储路径
             fileAbsolutePath = path + fileName;
-            if(!saveFile(fileAbsolutePath, file)){
+            if (!saveFile(fileAbsolutePath, file)) {
                 Result.fail("文件保存失败！");
             }
-            fileRelativePath = "localhost:8089/img/"+fileName;
+            fileRelativePath = "localhost:8089/img/" + fileName;
             filePathList.add(fileRelativePath);
         }
-        return Result.success("上传成功！",filePathList);
+        return Result.success("上传成功！", filePathList);
     }
 
     private boolean saveFile(String filePath, MultipartFile file) {

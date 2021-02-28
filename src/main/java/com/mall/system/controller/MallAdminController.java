@@ -9,6 +9,7 @@ import com.mall.system.entity.MallAdmin;
 import com.mall.system.service.IMallAdminService;
 import com.mall.system.util.DateUtil;
 import com.mall.system.util.EncryptUtil;
+import com.mall.system.util.ObjectUtil;
 import com.mall.system.util.Result;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ import javax.annotation.Resource;
 public class MallAdminController {
     @Resource
     private IMallAdminService adminService;
-    
+
     @RequestMapping("/login")
     public Result login(@RequestBody MallAdmin admin){
         admin.setPassword(EncryptUtil.Base64Encode(admin.getPassword().trim()));
@@ -42,19 +43,17 @@ public class MallAdminController {
             UpdateWrapper<MallAdmin> updateWrapper = new UpdateWrapper<>();
             updateWrapper.eq("username",admin.getUsername()).set("last_login_time",DateUtil.getStringDate());
             adminService.update(updateWrapper);
-            return Result.success("登录成功!",queryAdmin);
+            return Result.success("登录成功!",queryAdmin.getAdminId());
         }
         return Result.fail("用户名或密码错误！");
     }
-    
+
     @RequestMapping("/info")
-    public Result getAdminInfo(String username){
-        QueryWrapper<MallAdmin> adminQueryWrapper = new QueryWrapper<>();
-        adminQueryWrapper.eq("username",username);
-        MallAdmin admin = adminService.getOne(adminQueryWrapper);
+    public Result getAdminInfo(Integer adminId){
+        MallAdmin admin = adminService.getById(adminId);
         return Result.success(admin);
     }
-    
+
     //添加管理员
     @RequestMapping("/add")
     public Result addAdmin(MallAdmin admin){
@@ -71,7 +70,7 @@ public class MallAdminController {
         }
         return Result.fail("注册失败！");
     }
-    
+
     @RequestMapping("/update")
     public Result updateAdmin(MallAdmin admin){
         if(adminService.updateById(admin)){
@@ -79,7 +78,7 @@ public class MallAdminController {
         }
         return Result.fail("更新失败！");
     }
-    
+
     @RequestMapping("/delete")
     public Result deleteAdmin(MallAdmin admin){
         UpdateWrapper<MallAdmin> updateWrapper = new UpdateWrapper<>();
@@ -89,11 +88,16 @@ public class MallAdminController {
         }
         return Result.fail("删除失败!");
     }
-    
+
     @RequestMapping("/list")
-    public Result listAdmin(Integer current,Integer size){
+    public Result listAdmin(String username,String mobile,Integer current,Integer size){
         QueryWrapper<MallAdmin> wrapper = new QueryWrapper<>();
-        wrapper.ne("deleted", 1);
+        if(ObjectUtil.isNotEmpty(username)){
+            wrapper.ne("username",username);
+        }
+        if(ObjectUtil.isNotEmpty(mobile)){
+            wrapper.ne("mobile",mobile);
+        }
         IPage<MallAdmin> adminIPage = new Page<>(current,size);
         IPage page = adminService.page(adminIPage, wrapper);
         return Result.success(page);

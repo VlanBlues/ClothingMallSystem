@@ -7,10 +7,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.system.entity.MallUser;
 import com.mall.system.service.IMallUserService;
-import com.mall.system.util.DateUtil;
-import com.mall.system.util.EncryptUtil;
-import com.mall.system.util.IpUtil;
-import com.mall.system.util.Result;
+import com.mall.system.util.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -49,10 +48,9 @@ public class MallUserController {
         }
         return Result.fail("用户名或密码错误！");
     }
-    
-    @RequestMapping("/add")
-    public Result addUser(MallUser user){
-        user.setAddTime(DateUtil.getStringDate());
+
+    @RequestMapping("/addOrUpdate")
+    public Result addUser(@RequestBody MallUser user){
         user.setPassword(EncryptUtil.Base64Encode(user.getPassword().trim()));
         QueryWrapper<MallUser> wrapper = new QueryWrapper<>();
         wrapper.eq("username",user.getUsername().trim());
@@ -60,7 +58,7 @@ public class MallUserController {
             return Result.fail("用户名已存在");
         }
         user.setAddTime(DateUtil.getStringDate());
-        if(userService.save(user)){
+        if(userService.saveOrUpdate(user)){
             return Result.success("注册成功！");
         }
         return Result.fail("注册失败！");
@@ -76,19 +74,35 @@ public class MallUserController {
     }
 
     @RequestMapping("/delete")
-    public Result deleteUser(MallUser user){
+    public Result deleteUser(Integer id){
+        MallUser user = userService.getById(id);
         UpdateWrapper<MallUser> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("user_id",user.getUserId()).set("deleted",1);
-        if(userService.update(updateWrapper)){
-            return Result.success("删除成功！");
+        String msg;
+        String err;
+        if(user.getDeleted() == 0){
+            updateWrapper.eq("user_id",id).set("deleted",1);
+            msg = "失效成功！";
+            err = "失效失败！";
+        }else {
+            updateWrapper.eq("user_id",id).set("deleted",0);
+            msg = "恢复可用！";
+            err = "恢复失败！";
         }
-        return Result.fail("删除失败!");
+        if(userService.update(updateWrapper)){
+            return Result.success(msg);
+        }
+        return Result.fail(err);
     }
 
     @RequestMapping("/list")
-    public Result listUser(Integer current,Integer size){
+    public Result listUser(String username,String mobile,Integer current,Integer size){
         QueryWrapper<MallUser> wrapper = new QueryWrapper<>();
-        wrapper.ne("deleted", 1);
+        if(ObjectUtil.isNotEmpty(username)){
+            wrapper.like("username",username);
+        }
+        if(ObjectUtil.isNotEmpty(mobile)){
+            wrapper.like("mobile",mobile);
+        }
         IPage<MallUser> userIPage = new Page<>(current,size);
         IPage page = userService.page(userIPage, wrapper);
         return Result.success(page);

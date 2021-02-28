@@ -85,11 +85,11 @@ public class MallOrder implements Serializable {
     /**
      * 逻辑删除
      */
-    private Boolean deleted;
+    private Integer deleted;
 
     @TableField(exist = false)
     private List<MallOrderGoods> orderGoodsList;
-    
+
     @TableField(exist = false)
     private List<MallGoods> goodsList;
 

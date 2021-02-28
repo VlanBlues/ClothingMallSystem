@@ -60,8 +60,8 @@ public class MallAddressController {
      * @return 地址列表
      */
     @RequestMapping("/list")
-    public Result listAddress(Integer current,Integer size){
-        return addressService.listAddress(current, size);
+    public Result listAddress(String userId,String name,Integer current,Integer size){
+        return addressService.listAddress(userId,name,current, size);
     }
 
     @RequestMapping("/update")

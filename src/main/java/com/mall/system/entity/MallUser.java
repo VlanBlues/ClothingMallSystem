@@ -42,7 +42,7 @@ public class MallUser implements Serializable {
     /**
      * 生日
      */
-    private LocalDate birthday;
+    private String birthday;
 
     /**
      * 最近一次登录时间
@@ -87,7 +87,7 @@ public class MallUser implements Serializable {
     /**
      * 逻辑删除
      */
-    private Boolean deleted;
+    private Integer deleted;
 
 
 }

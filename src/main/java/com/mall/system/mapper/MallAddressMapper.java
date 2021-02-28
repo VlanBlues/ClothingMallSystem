@@ -3,6 +3,7 @@ package com.mall.system.mapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.system.entity.MallAddress;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ import java.util.List;
  * @since 2021-02-22
  */
 public interface MallAddressMapper extends BaseMapper<MallAddress> {
-    List<MallAddress> listAddress(Page<MallAddress> mallAddressPage);
+    Page<MallAddress> listAddress(@Param("userId") String userId,@Param("name") String name, Page<MallAddress> mallAddressPage);
 }

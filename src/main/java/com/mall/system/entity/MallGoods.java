@@ -64,6 +64,7 @@ public class MallGoods implements Serializable {
      */
     private BigDecimal retailPrice;
 
+
     /**
      * 商品详细介绍，是富文本格式
      */
@@ -92,7 +93,7 @@ public class MallGoods implements Serializable {
     /**
      * 逻辑删除
      */
-    private Boolean deleted;
+    private Integer deleted;
 
     /**
      * 审批状态 ：4 未提交  0 待审批  1 审批通过 2 审批拒绝

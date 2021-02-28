@@ -13,5 +13,5 @@ import com.mall.system.util.Result;
  * @since 2021-02-22
  */
 public interface IMallAddressService extends IService<MallAddress> {
-    Result listAddress(Integer current, Integer size);
+    Result listAddress(String userId,String name,Integer current, Integer size);
 }

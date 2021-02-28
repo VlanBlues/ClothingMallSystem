@@ -37,19 +37,19 @@ public class MallAddress implements Serializable {
     private Integer userId;
 
     /**
-     * 行政区域表的省ID
+     * 行政区域表的省
      */
-    private Integer provinceId;
+    private String province;
 
     /**
-     * 行政区域表的市ID
+     * 行政区域表的市
      */
-    private Integer cityId;
+    private String city;
 
     /**
-     * 行政区域表的区县ID
+     * 行政区域表的区县
      */
-    private Integer areaId;
+    private String area;
 
     /**
      * 具体收货地址
@@ -79,7 +79,7 @@ public class MallAddress implements Serializable {
     /**
      * 逻辑删除
      */
-    private Boolean deleted;
+    private Integer deleted;
 
     @TableField(exist = false)
     private MallUser user;

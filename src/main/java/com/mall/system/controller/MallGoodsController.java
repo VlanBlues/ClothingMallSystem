@@ -9,6 +9,8 @@ import com.mall.system.entity.MallGoods;
 import com.mall.system.service.IMallGoodsService;
 import com.mall.system.util.DateUtil;
 import com.mall.system.util.Result;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -26,13 +28,13 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/goods")
 public class MallGoodsController {
-    
+
     @Resource
     private IMallGoodsService goodsService;
-    
-    @RequestMapping("/add")
-    public Result addCategory(MallGoods goods){
-        goods.setAddTime(DateUtil.getStringDate());
+
+    @PostMapping("/add")
+    public Result addCategory(@RequestBody MallGoods goods){
+        System.out.println(1231);
         if (goodsService.save(goods)) {
             return Result.success("商品添加成功！");
         }

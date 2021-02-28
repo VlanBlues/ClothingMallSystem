@@ -2,9 +2,7 @@ package com.mall.system.controller;
 
 import com.mall.system.service.FileUploadService;
 import com.mall.system.util.Result;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -14,18 +12,19 @@ import javax.annotation.Resource;
  * Date: 2021/2/2 10:18
  */
 @RestController
+@RequestMapping("/img")
 public class FileUploadController {
-    
+
     @Resource
     private FileUploadService fileUploadService;
-    
+
     @RequestMapping("/upload")
     public Result singleUpload(@RequestParam("file") MultipartFile file){
         return fileUploadService.singleUpload(file);
     }
-    
+
     //这种方式上传的时间短
-    @RequestMapping("/upload2")
+    @PostMapping("/upload2")
     public Result singleUpload2(@RequestParam("file") MultipartFile file){
         return fileUploadService.singleUpload2(file);
     }
