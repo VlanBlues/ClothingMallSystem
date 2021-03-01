@@ -4,7 +4,10 @@ import com.mall.system.entity.MallGoods;
 import com.mall.system.mapper.MallGoodsMapper;
 import com.mall.system.service.IMallGoodsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Result;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -16,5 +19,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MallGoodsServiceImpl extends ServiceImpl<MallGoodsMapper, MallGoods> implements IMallGoodsService {
-
+    
 }

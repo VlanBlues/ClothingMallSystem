@@ -2,6 +2,7 @@ package com.mall.system.service;
 
 import com.mall.system.entity.MallGoods;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Result;
 
 import java.util.List;
 
@@ -14,5 +15,4 @@ import java.util.List;
  * @since 2021-02-19
  */
 public interface IMallGoodsService extends IService<MallGoods> {
-    
 }

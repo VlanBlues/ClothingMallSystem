@@ -3,6 +3,7 @@ package com.mall.system.mapper;
 import com.mall.system.entity.MallGoods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
 
 import java.util.List;
 

@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.mall.system.entity.MallCategory;
 import com.mall.system.entity.MallGoods;
+import com.mall.system.service.IMallCategoryService;
 import com.mall.system.service.IMallGoodsService;
 import com.mall.system.util.DateUtil;
 import com.mall.system.util.Result;
@@ -16,6 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,6 +37,9 @@ public class MallGoodsController {
 
     @Resource
     private IMallGoodsService goodsService;
+    
+    @Resource
+    private IMallCategoryService categoryService;
 
     @PostMapping("/add")
     public Result addCategory(@RequestBody MallGoods goods){
@@ -58,6 +67,28 @@ public class MallGoodsController {
         IPage<MallGoods> goodsIPage = new Page<>(current,size);
         IPage page = goodsService.page(goodsIPage, wrapper);
         return Result.success(page);
+    }
+    
+    @RequestMapping("/getByGoodsId")
+    public Result getByGoodsId(Integer goodsId){
+        MallGoods goods = goodsService.getById(goodsId);
+        return Result.success(goods);
+    }
+
+    @RequestMapping("/listByCategory")
+    public Result listByCategory(){
+        List<MallCategory> categories = categoryService.list();
+        List<Object> list = new ArrayList<>();
+        Map<String, Object> map;
+        for (MallCategory category : categories) {
+            map = new HashMap<>();
+            QueryWrapper<MallGoods> wrapper = new QueryWrapper<>();
+            wrapper.eq("category_id",category.getCategoryId()).ne("deleted",1);
+            map.put("name",category.getName());
+            map.put("list",goodsService.list(wrapper));
+            list.add(map);
+        }
+        return Result.success(list);
     }
 
     @RequestMapping("/update")
