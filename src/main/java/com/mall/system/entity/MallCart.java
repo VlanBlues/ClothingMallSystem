@@ -36,7 +36,7 @@ public class MallCart implements Serializable {
     /**
      * 数量
      */
-    private Integer num;
+    private Integer goodsNum;
 
     private String addTime;
 

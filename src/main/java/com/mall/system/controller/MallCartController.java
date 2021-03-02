@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sun.nio.cs.ext.MacArabic;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -41,10 +42,10 @@ public class MallCartController {
                 .ne("deleted",1);
         MallCart queryCart = cartService.getOne(wrapper);
         if(ObjectUtil.isNotEmpty(queryCart.getCartId().toString())){
-            queryCart.setNum(queryCart.getNum()+1);
+            queryCart.setGoodsNum(queryCart.getGoodsNum()+cart.getGoodsNum());
             queryCart.setUpdateTime(DateUtil.getStringDate());
             if(cartService.saveOrUpdate(queryCart)){
-                return Result.success("当前商品已存在！购物车加一");
+                return Result.success("当前商品已存在！购物车加"+cart.getGoodsNum());
             }
         }else {
             cart.setAddTime(DateUtil.getStringDate());
@@ -69,6 +70,12 @@ public class MallCartController {
     public Result listByUserId(Integer current,Integer size,Integer userId){
         QueryWrapper<MallCart> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",userId).ne("deleted",1);
+        if(null == current && null == size){
+            List<MallCart> cartList = cartService.list(wrapper);
+            if(cartList.size() == 0){
+                return Result.success(cartList);
+            }
+        }
         IPage<MallCart> cartIPage = new Page<>(current,size);
         IPage page = cartService.page(cartIPage, wrapper);
         return Result.success(page);

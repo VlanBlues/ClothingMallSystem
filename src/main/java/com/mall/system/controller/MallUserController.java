@@ -4,10 +4,12 @@ package com.mall.system.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.system.entity.MallUser;
 import com.mall.system.service.IMallUserService;
 import com.mall.system.util.*;
+import io.netty.util.internal.StringUtil;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,18 +35,18 @@ public class MallUserController {
     private IMallUserService userService;
 
     @RequestMapping("/login")
-    public Result login(MallUser user, HttpServletRequest request){
+    public Result login(@RequestBody MallUser user, HttpServletRequest request){
         user.setPassword(EncryptUtil.Base64Encode(user.getPassword().trim()));
         QueryWrapper<MallUser> wrapper = new QueryWrapper<>();
         wrapper.eq("username",user.getUsername()).eq("password",user.getPassword())
                 .ne("deleted",1);
-        int count = userService.count(wrapper);
-        if(count>0){
+        MallUser mallUser = userService.getOne(wrapper);
+        if(!StringUtil.isNullOrEmpty(mallUser.getUsername())){
             UpdateWrapper<MallUser> updateWrapper = new UpdateWrapper<>();
             updateWrapper.eq("username",user.getUsername()).set("last_login_time",DateUtil.getStringDate())
                     .set("last_login_ip",IpUtil.getIpAddr(request));
             userService.update(updateWrapper);
-            return Result.success("登录成功!","eca6948a-fcb3-4e1a-bf9d-ab4a0be907cc");
+            return Result.success("登录成功!",mallUser);
         }
         return Result.fail("用户名或密码错误！");
     }
