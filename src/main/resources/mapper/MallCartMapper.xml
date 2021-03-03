@@ -1,5 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mall.system.mapper.MallCartMapper">
-    
+    <resultMap id="MallCartResultMap" type="com.mall.system.entity.MallCart">
+        <id column="cart_cart_id" property="cartId" />
+        <result column="cart_user_id" property="userId" />
+        <result column="cart_goods_sn" property="goodsSn" />
+        <result column="cart_goods_num" property="goodsNum" />
+        <result column="cart_check" property="check" />
+        <result column="cart_add_time" property="addTime" />
+        <result column="cart_update_time" property="updateTime" />
+        <result column="cart_deleted" property="deleted" />
+        <association property="user" javaType="com.mall.system.entity.MallAddress"
+                     resultMap="com.mall.system.mapper.MallUserMapper.UserResultMap"/>
+        <association property="goods" javaType="com.mall.system.entity.MallOrder"
+                     resultMap="com.mall.system.mapper.MallGoodsMapper.GoodsResultMap"/>
+    </resultMap>
+    <sql id="MallCartColumn">
+        select
+            cart.cart_id as cart_cart_id,
+            cart.user_id as cart_user_id,
+            cart.goods_sn as cart_goods_sn,
+            cart.goods_num as cart_goods_num,
+            cart.check as cart_check,
+            cart.add_time as cart_add_time,
+            cart.update_time as cart_update_time,
+            cart.deleted as cart_deleted
+        from mall_cart cart
+    </sql>
+    <select id="getByUserId" resultMap="MallCartResultMap">
+        select
+            cart.cart_id as cart_cart_id,
+            cart.user_id as cart_user_id,
+            cart.goods_sn as cart_goods_sn,
+            cart.goods_num as cart_goods_num,
+            cart.check as cart_check,
+            cart.add_time as cart_add_time,
+            cart.update_time as cart_update_time,
+            user.user_id as user_user_id,
+            user.username as user_username,
+            user.gender as user_gender,
+            user.birthday as user_birthday,
+            user.last_login_time as user_last_login_time,
+            user.last_login_ip as user_last_login_ip,
+            user.nickname as user_nickname,
+            user.mobile as user_mobile,
+            user.avatar as user_avatar,
+            user.status as user_status,
+            user.add_time as user_add_time,
+            user.update_time as user_update_time,
+            goods.*
+        from mall_cart cart 
+            left join mall_goods goods 
+                on cart.goods_sn = goods.goods_sn
+            left join mall_user user on cart.user_id = user.user_id
+        where cart.user_id = #{userId} and user.deleted != 1 and goods.deleted != 1 and cart.goods_num != 0
+    </select>
 </mapper>

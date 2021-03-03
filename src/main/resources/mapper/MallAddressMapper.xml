@@ -21,17 +21,24 @@
 
     <select id="listAddress" resultMap="MallAddressResultMap">
         select a.*,
-            b.user_id u_user_id,
-            b.add_time u_add_time,
-            b.update_time u_update_time,
-            b.deleted u_deleted,
-            b.username,b.gender,
-            b.birthday,b.nickname,
-            b.mobile,b.avatar
+            user.user_id as user_user_id,
+            user.username as user_username,
+            user.password as user_password,
+            user.gender as user_gender,
+            user.birthday as user_birthday,
+            user.last_login_time as user_last_login_time,
+            user.last_login_ip as user_last_login_ip,
+            user.nickname as user_nickname,
+            user.mobile as user_mobile,
+            user.avatar as user_avatar,
+            user.status as user_status,
+            user.add_time as user_add_time,
+            user.update_time as user_update_time,
+            user.deleted as user_deleted
         from mall_address a
-            left join mall_user b
-                on a.user_id = b.user_id
-        where a.deleted != 1 and b.deleted != 1
+            left join mall_user user
+                on a.user_id = user.user_id
+        where a.deleted != 1 and user.deleted != 1
         <if test="userId != null">
             and a.user_id like concat('%',#{userId},'%')
         </if>

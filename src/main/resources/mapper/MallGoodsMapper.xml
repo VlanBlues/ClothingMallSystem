@@ -18,13 +18,13 @@
         <result column="browse" property="browse" />
         <result column="sales" property="sales" />
         <result column="deleted" property="deleted" />
-        <result column="approve_status" property="approveStatus" />
-        <result column="approve_msg" property="approveMsg" />
     </resultMap>
     
     <select id="queryByOrderSn" resultType="com.mall.system.entity.MallGoods">
         select a.*
-        from mall_goods a right join mall_order_goods b on a.goods_sn = b.goods_sn 
+        from mall_goods a 
+            right join mall_order_goods b 
+                on a.goods_sn = b.goods_sn 
         where a.deleted != 1 and b.deleted != 1 and b.order_sn = #{orderSn}
         
     </select>

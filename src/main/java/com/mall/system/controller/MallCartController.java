@@ -11,6 +11,8 @@ import com.mall.system.util.DateUtil;
 import com.mall.system.util.ObjectUtil;
 import com.mall.system.util.Result;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -34,23 +36,24 @@ public class MallCartController {
     @Resource
     private IMallCartService cartService;
     
-    @RequestMapping("/add")
-    public Result addCart(MallCart cart){
-        cart.setAddTime(DateUtil.getStringDate());
+    @PostMapping("/add")
+    public Result addCart(@RequestBody MallCart cart){
         QueryWrapper<MallCart> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",cart.getUserId()).eq("goods_sn",cart.getGoodsSn())
                 .ne("deleted",1);
         MallCart queryCart = cartService.getOne(wrapper);
-        if(ObjectUtil.isNotEmpty(queryCart.getCartId().toString())){
+        Integer beforeGoodsNun = cart.getGoodsNum();
+        if(null != queryCart){
             queryCart.setGoodsNum(queryCart.getGoodsNum()+cart.getGoodsNum());
-            queryCart.setUpdateTime(DateUtil.getStringDate());
-            if(cartService.saveOrUpdate(queryCart)){
-                return Result.success("当前商品已存在！购物车加"+cart.getGoodsNum());
+            boolean b = cartService.saveOrUpdate(queryCart);
+            if(b && beforeGoodsNun == 0){
+                return Result.success("添加购物车成功！",listByUserId(cart.getUserId()));
+            }else if(b){
+                return Result.success("当前商品已存在！购物车加"+cart.getGoodsNum(),listByUserId(cart.getUserId()));
             }
         }else {
-            cart.setAddTime(DateUtil.getStringDate());
             if(cartService.save(cart)){
-                return Result.success("添加购物车成功！");
+                return Result.success("添加购物车成功！",listByUserId(cart.getUserId()));
             }
         }
         return Result.fail("添加购物车失败！");
@@ -67,33 +70,31 @@ public class MallCartController {
     }
     
     @RequestMapping("/listByUserId")
-    public Result listByUserId(Integer current,Integer size,Integer userId){
-        QueryWrapper<MallCart> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_id",userId).ne("deleted",1);
-        if(null == current && null == size){
-            List<MallCart> cartList = cartService.list(wrapper);
-            if(cartList.size() == 0){
-                return Result.success(cartList);
-            }
-        }
-        IPage<MallCart> cartIPage = new Page<>(current,size);
-        IPage page = cartService.page(cartIPage, wrapper);
-        return Result.success(page);
+    public Result listByUserId(Integer userId){
+        
+        return cartService.getByUserId(userId);
     }
 
     @RequestMapping("/list")
     public Result list(Integer current,Integer size){
         QueryWrapper<MallCart> wrapper = new QueryWrapper<>();
-        wrapper.ne("deleted",1);
+        wrapper.ne("deleted",1).ne("goods_num",0);
         IPage<MallCart> cartIPage = new Page<>(current,size);
         IPage page = cartService.page(cartIPage, wrapper);
         return Result.success(page);
     }
     
-    @RequestMapping("/update")
-    public Result updateCart(MallCart cart){
-        cart.setUpdateTime(DateUtil.getStringDate());
-        if (cartService.saveOrUpdate(cart)) {
+    @PostMapping("/update")
+    public Result updateCart(@RequestBody MallCart cart){
+        UpdateWrapper<MallCart> wrapper = new UpdateWrapper<>();
+        wrapper.eq("cart_id",cart.getCartId());
+        if(null != cart.getGoodsNum()){
+            wrapper.set("goods_num",cart.getGoodsNum());
+        }
+        if(null != cart.getDeleted()){
+            wrapper.set("deleted",cart.getDeleted());
+        }
+        if (cartService.update(wrapper)) {
             return Result.success("更新成功！");
         }
         return Result.fail("更新失败!");

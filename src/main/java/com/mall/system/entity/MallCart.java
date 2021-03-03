@@ -1,6 +1,7 @@
 package com.mall.system.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
@@ -38,6 +39,11 @@ public class MallCart implements Serializable {
      */
     private Integer goodsNum;
 
+    /**
+     * 是否确认
+     */
+    private Boolean check;
+
     private String addTime;
 
     private String updateTime;
@@ -46,6 +52,12 @@ public class MallCart implements Serializable {
      * 逻辑删除
      */
     private Integer deleted;
+
+    @TableField(exist = false)
+    private MallUser user;
+
+    @TableField(exist = false)
+    private MallGoods goods;
 
 
 }

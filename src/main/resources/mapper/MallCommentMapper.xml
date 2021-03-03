@@ -26,23 +26,28 @@
             a.add_time c_add_time,
             a.update_time c_update_time,
             a.deleted c_deleted,
-            b.user_id u_user_id,
-            b.add_time u_add_time,
-            b.update_time u_update_time,
-            b.deleted u_deleted,
-            b.username,b.gender,
-            b.birthday,b.nickname,
-            b.mobile,b.avatar,
+            user.user_id as user_user_id,
+            user.username as user_username,
+            user.gender as user_gender,
+            user.birthday as user_birthday,
+            user.last_login_time as user_last_login_time,
+            user.last_login_ip as user_last_login_ip,
+            user.nickname as user_nickname,
+            user.mobile as user_mobile,
+            user.avatar as user_avatar,
+            user.status as user_status,
+            user.add_time as user_add_time,
+            user.update_time as user_update_time,
             d.*
         from mall_comment a
-            left join mall_user b
-                on a.user_id = b.user_id
+            left join mall_user user
+                on a.user_id = user.user_id
             left join mall_order_goods c
                 on a.order_goods_id = c.id
             left join mall_goods d
                 on d.goods_sn = c.goods_sn
         where a.deleted != 1 
-              and b.deleted != 1 
+              and user.deleted != 1 
               and c.deleted != 1 
               and d.deleted != 1
     </select>
