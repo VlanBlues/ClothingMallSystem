@@ -88,10 +88,13 @@ public class MallOrder implements Serializable {
     private Integer deleted;
 
     @TableField(exist = false)
+    private List<MallCart> cartList;
+    
+    /*@TableField(exist = false)
     private List<MallOrderGoods> orderGoodsList;
 
     @TableField(exist = false)
-    private List<MallGoods> goodsList;
+    private List<MallGoods> goodsList;*/
 
     @TableField(exist = false)
     private MallUser user;

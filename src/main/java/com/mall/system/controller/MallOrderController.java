@@ -3,8 +3,11 @@ package com.mall.system.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.mall.system.entity.MallCart;
+import com.mall.system.entity.MallCategory;
 import com.mall.system.entity.MallOrder;
 import com.mall.system.entity.MallOrderGoods;
+import com.mall.system.service.IMallCartService;
 import com.mall.system.service.IMallOrderGoodsService;
 import com.mall.system.service.IMallOrderService;
 import com.mall.system.util.DateUtil;
@@ -34,18 +37,27 @@ public class MallOrderController {
     private IMallOrderService orderService;
     
     @Resource
+    private IMallCartService cartService;
+    
+    @Resource
     private IMallOrderGoodsService orderGoodsService;
 
     @PostMapping("/add")
     @Transactional
-    public Result addCategory(@RequestBody MallOrder order){
+    public Result addOrders(@RequestBody MallOrder order){
         //订单编号
         String orderSn = DateUtil.getNo(3);
-        order.setAddTime(DateUtil.getStringDate());
         order.setOrderSn(orderSn);
-        for (MallOrderGoods orderGoods : order.getOrderGoodsList()) {
+        for (MallCart mallCart : order.getCartList()) {
+            MallOrderGoods orderGoods = new MallOrderGoods();
             orderGoods.setOrderSn(orderSn);
+            orderGoods.setGoodsSn(mallCart.getGoodsSn());
+            orderGoods.setNum(mallCart.getGoodsNum());
             orderGoodsService.save(orderGoods);
+            //更新购物车已经被收为订单
+            UpdateWrapper<MallCart> wrapper = new UpdateWrapper<>();
+            wrapper.eq("cart_id",mallCart.getCartId()).set("check",0);
+            cartService.update(wrapper);
         }
         if (orderService.save(order)) {
             return Result.success("订单创建成功！");
@@ -54,7 +66,7 @@ public class MallOrderController {
     }
 
     @RequestMapping("/delete")
-    public Result deleteCategory(Integer orderId,String orderSn){
+    public Result deleteOrders(Integer orderId,String orderSn){
         UpdateWrapper<MallOrder> wrapper = new UpdateWrapper<>();
         wrapper.eq("order_id",orderId).set("deleted",1);
         UpdateWrapper<MallOrderGoods> orderGoodsUpdateWrapper = new UpdateWrapper<>();
@@ -66,14 +78,14 @@ public class MallOrderController {
     }
 
     @RequestMapping("/listByUser")
-    public Result listCategory(Integer userId){
+    public Result listOrders(Integer userId){
         QueryWrapper<MallOrder> wrapper = new QueryWrapper<>();
         wrapper.ne("deleted",1);
         return Result.success(orderService.list(wrapper));
     }
 
     @RequestMapping("/update")
-    public Result updateCategory(MallOrder order){
+    public Result updateOrders(MallOrder order){
         order.setUpdateTime(DateUtil.getStringDate());
         if (orderService.saveOrUpdate(order)) {
             return Result.success("修改成功！");

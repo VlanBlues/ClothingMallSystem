@@ -7,6 +7,8 @@ import com.mall.system.entity.MallAddress;
 import com.mall.system.service.IMallAddressService;
 import com.mall.system.util.DateUtil;
 import com.mall.system.util.Result;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +29,8 @@ public class MallAddressController {
     @Resource
     private IMallAddressService addressService;
 
-    @RequestMapping("/add")
-    public Result addAddress(MallAddress address){
-        address.setAddTime(DateUtil.getStringDate());
+    @PostMapping("/add")
+    public Result addAddress(@RequestBody MallAddress address){
         if (addressService.save(address)) {
             return Result.success("地址添加成功！");
         }

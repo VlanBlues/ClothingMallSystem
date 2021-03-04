@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2021-03-03 17:10:06
+Date: 2021-03-04 17:59:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,12 +34,13 @@ CREATE TABLE `mall_address` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`address_id`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='收货地址表';
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='收货地址表';
 
 -- ----------------------------
 -- Records of mall_address
 -- ----------------------------
-INSERT INTO `mall_address` VALUES ('76', 'test', '200', '北京市', '测试', '测试', '学校', '13735965589', '0', '2021-02-28 16:22:04', '2021-02-28 16:45:32', '0');
+INSERT INTO `mall_address` VALUES ('80', 'test001', '204', '北京市', '市辖区', '东城区', '测试地址', '13495626648', '0', '2021-03-04 14:31:58', '2021-03-04 14:31:58', '0');
+INSERT INTO `mall_address` VALUES ('81', 'test002', '204', '内蒙古自治区', '赤峰市', '阿鲁科尔沁旗', '测试', '13695422889', '0', '2021-03-04 14:33:28', '2021-03-04 14:33:28', '0');
 
 -- ----------------------------
 -- Table structure for mall_admin
@@ -222,8 +223,8 @@ CREATE TABLE `mall_order` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL COMMENT '用户表的用户ID',
   `order_sn` varchar(63) NOT NULL COMMENT '订单编号',
-  `order_status` smallint(6) NOT NULL COMMENT '订单状态(0.未支付 1.已支付 2.已取消)',
-  `message` varchar(512) NOT NULL DEFAULT '' COMMENT '用户订单留言',
+  `order_status` smallint(6) NOT NULL DEFAULT '1' COMMENT '订单状态(0.未支付 1.已支付 2.已取消)',
+  `message` varchar(512) DEFAULT '' COMMENT '用户订单留言',
   `order_price` decimal(10,2) NOT NULL COMMENT '订单费用',
   `ship_time` datetime DEFAULT NULL COMMENT '发货开始时间',
   `ship_sn` varchar(255) DEFAULT NULL COMMENT '物流单号',
@@ -233,7 +234,7 @@ CREATE TABLE `mall_order` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`order_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=172 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='订单表';
 
 -- ----------------------------
 -- Records of mall_order
@@ -252,7 +253,7 @@ CREATE TABLE `mall_order_goods` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of mall_order_goods
