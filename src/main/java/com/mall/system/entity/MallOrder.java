@@ -38,6 +38,11 @@ public class MallOrder implements Serializable {
     private String orderSn;
 
     /**
+     * 地址id
+     */
+    private Integer addressId;
+
+    /**
      * 订单状态(0.未支付 1.已支付 2.已取消)
      */
     private Integer orderStatus;
@@ -89,12 +94,9 @@ public class MallOrder implements Serializable {
 
     @TableField(exist = false)
     private List<MallCart> cartList;
-    
-    /*@TableField(exist = false)
-    private List<MallOrderGoods> orderGoodsList;
 
     @TableField(exist = false)
-    private List<MallGoods> goodsList;*/
+    private List<MallGoods> goodsList;
 
     @TableField(exist = false)
     private MallUser user;

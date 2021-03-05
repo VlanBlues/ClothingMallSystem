@@ -1,5 +1,6 @@
 package com.mall.system.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.system.entity.MallOrder;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -16,5 +17,5 @@ import java.util.List;
  * @since 2021-02-19
  */
 public interface MallOrderMapper extends BaseMapper<MallOrder> {
-    List<MallOrder> listByUserId(@Param("userId") Integer userId, Page<MallOrder> orderPage);
+    List<MallOrder> listByUserId(@Param("userId") Integer userId, IPage<MallOrder> orderPage);
 }

@@ -18,10 +18,11 @@
         <result column="browse" property="browse" />
         <result column="sales" property="sales" />
         <result column="deleted" property="deleted" />
+        <result column="buy_num" property="buyNum"/>
     </resultMap>
     
     <select id="queryByOrderSn" resultType="com.mall.system.entity.MallGoods">
-        select a.*
+        select a.*,b.num buy_num
         from mall_goods a 
             right join mall_order_goods b 
                 on a.goods_sn = b.goods_sn 

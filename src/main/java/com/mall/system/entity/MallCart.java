@@ -42,7 +42,7 @@ public class MallCart implements Serializable {
     /**
      * 是否确认
      */
-    private Boolean check;
+    private Boolean checkSet;
 
     private String addTime;
 

@@ -2,6 +2,7 @@ package com.mall.system.entity;
 
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
@@ -105,5 +106,7 @@ public class MallGoods implements Serializable {
      */
     private String approveMsg;
 
+    @TableField(exist = false)
+    private Integer buyNum;
 
 }

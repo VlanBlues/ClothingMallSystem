@@ -11,11 +11,8 @@ import com.mall.system.util.DateUtil;
 import com.mall.system.util.ObjectUtil;
 import com.mall.system.util.Result;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import sun.nio.cs.ext.MacArabic;
 
 import javax.annotation.Resource;
@@ -40,7 +37,7 @@ public class MallCartController {
     public Result addCart(@RequestBody MallCart cart){
         QueryWrapper<MallCart> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",cart.getUserId()).eq("goods_sn",cart.getGoodsSn())
-                .ne("deleted",1);
+                .ne("deleted",1).ne("check_set",1);
         MallCart queryCart = cartService.getOne(wrapper);
         Integer beforeGoodsNun = cart.getGoodsNum();
         if(null != queryCart){
@@ -59,8 +56,8 @@ public class MallCartController {
         return Result.fail("添加购物车失败！");
     }
     
-    @RequestMapping("/delete")
-    public Result deleteCart(Integer cartId){
+    @GetMapping("/delete")
+    public Result deleteCart( Integer cartId){
         UpdateWrapper<MallCart> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("cart_id",cartId).set("deleted",1);
         if(cartService.update(updateWrapper)){

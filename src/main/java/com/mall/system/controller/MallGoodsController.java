@@ -74,6 +74,26 @@ public class MallGoodsController {
         MallGoods goods = goodsService.getById(goodsId);
         return Result.success(goods);
     }
+    
+    @RequestMapping("/listByCategoryId")
+    public Result listByCategoryId(Integer categoryId){
+        QueryWrapper<MallGoods> wrapper = new QueryWrapper<>();
+        if(null != categoryId){
+            wrapper.eq("category_id",categoryId).ne("deleted",1);
+            return Result.success(goodsService.list(wrapper));
+        }
+        return Result.fail("参数不能为空");
+    }
+
+    @RequestMapping("/listBySearch")
+    public Result listBySearch(String search){
+        QueryWrapper<MallGoods> wrapper = new QueryWrapper<>();
+        if(null != search){
+            wrapper.like("brief",search).ne("deleted",1);
+            return Result.success(goodsService.list(wrapper));
+        }
+        return Result.fail("参数不能为空");
+    }
 
     @RequestMapping("/listByCategory")
     public Result listByCategory(){

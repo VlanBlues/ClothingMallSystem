@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2021-03-04 17:59:38
+Date: 2021-03-05 17:26:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -71,19 +71,22 @@ CREATE TABLE `mall_cart` (
   `cart_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL COMMENT '用户id',
   `goods_sn` varchar(255) DEFAULT NULL COMMENT '货物id',
+  `check_set` tinyint(1) DEFAULT '0' COMMENT '是否已成为订单',
   `goods_num` int(11) DEFAULT NULL COMMENT '数量',
-  `check` tinyint(1) DEFAULT '0' COMMENT '是否确认',
   `add_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` int(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`cart_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of mall_cart
 -- ----------------------------
-INSERT INTO `mall_cart` VALUES ('1', '204', 'cs2021022804', '1', '0', '2021-03-03 10:36:32', '2021-03-03 14:47:20', '0');
-INSERT INTO `mall_cart` VALUES ('2', '204', 'cs2021022801', '7', '0', '2021-03-03 14:26:31', '2021-03-03 15:22:29', '0');
+INSERT INTO `mall_cart` VALUES ('24', '204', 'cs2021022803', '1', '1', '2021-03-05 16:00:57', '2021-03-05 16:52:39', '0');
+INSERT INTO `mall_cart` VALUES ('25', '204', 'nz2021022802', '1', '1', '2021-03-05 16:01:03', '2021-03-05 16:02:09', '0');
+INSERT INTO `mall_cart` VALUES ('26', '204', 'cs2021022807', '1', '1', '2021-03-05 16:15:19', '2021-03-05 16:16:01', '0');
+INSERT INTO `mall_cart` VALUES ('27', '204', 'fy2021022808', '1', '1', '2021-03-05 16:15:32', '2021-03-05 16:16:01', '0');
+INSERT INTO `mall_cart` VALUES ('28', '204', 'cs2021022803', '0', '1', '2021-03-05 16:53:26', '2021-03-05 16:53:26', '0');
 
 -- ----------------------------
 -- Table structure for mall_category
@@ -222,6 +225,7 @@ DROP TABLE IF EXISTS `mall_order`;
 CREATE TABLE `mall_order` (
   `order_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL COMMENT '用户表的用户ID',
+  `address_id` int(11) DEFAULT NULL COMMENT '地址id',
   `order_sn` varchar(63) NOT NULL COMMENT '订单编号',
   `order_status` smallint(6) NOT NULL DEFAULT '1' COMMENT '订单状态(0.未支付 1.已支付 2.已取消)',
   `message` varchar(512) DEFAULT '' COMMENT '用户订单留言',
@@ -234,11 +238,13 @@ CREATE TABLE `mall_order` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`order_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=172 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='订单表';
 
 -- ----------------------------
 -- Records of mall_order
 -- ----------------------------
+INSERT INTO `mall_order` VALUES ('173', '204', '81', '20210305040209262', '1', '', '607.00', null, null, null, null, '2021-03-05 16:02:09', '2021-03-05 16:02:09', '0');
+INSERT INTO `mall_order` VALUES ('174', '204', '81', '20210305041601758', '1', '', '1045.00', null, null, null, null, '2021-03-05 16:16:01', '2021-03-05 16:16:01', '0');
 
 -- ----------------------------
 -- Table structure for mall_order_goods
@@ -253,11 +259,15 @@ CREATE TABLE `mall_order_goods` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of mall_order_goods
 -- ----------------------------
+INSERT INTO `mall_order_goods` VALUES ('13', '20210305040209262', 'cs2021022803', '1', '2021-03-05 16:02:09', '2021-03-05 16:02:09', '0');
+INSERT INTO `mall_order_goods` VALUES ('14', '20210305040209262', 'nz2021022802', '1', '2021-03-05 16:02:09', '2021-03-05 16:02:09', '0');
+INSERT INTO `mall_order_goods` VALUES ('15', '20210305041601758', 'cs2021022807', '1', '2021-03-05 16:16:01', '2021-03-05 16:16:01', '0');
+INSERT INTO `mall_order_goods` VALUES ('16', '20210305041601758', 'fy2021022808', '1', '2021-03-05 16:16:01', '2021-03-05 16:16:01', '0');
 
 -- ----------------------------
 -- Table structure for mall_user

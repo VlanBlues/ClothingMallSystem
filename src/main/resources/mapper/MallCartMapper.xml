@@ -6,7 +6,7 @@
         <result column="cart_user_id" property="userId" />
         <result column="cart_goods_sn" property="goodsSn" />
         <result column="cart_goods_num" property="goodsNum" />
-        <result column="cart_check" property="check" />
+        <result column="cart_check" property="checkSet" />
         <result column="cart_add_time" property="addTime" />
         <result column="cart_update_time" property="updateTime" />
         <result column="cart_deleted" property="deleted" />
@@ -21,7 +21,7 @@
             cart.user_id as cart_user_id,
             cart.goods_sn as cart_goods_sn,
             cart.goods_num as cart_goods_num,
-            cart.check as cart_check,
+            cart.check_set as cart_check,
             cart.add_time as cart_add_time,
             cart.update_time as cart_update_time,
             cart.deleted as cart_deleted
@@ -33,7 +33,7 @@
             cart.user_id as cart_user_id,
             cart.goods_sn as cart_goods_sn,
             cart.goods_num as cart_goods_num,
-            cart.check as cart_check,
+            cart.check_set as cart_check,
             cart.add_time as cart_add_time,
             cart.update_time as cart_update_time,
             user.user_id as user_user_id,
@@ -53,6 +53,8 @@
             left join mall_goods goods 
                 on cart.goods_sn = goods.goods_sn
             left join mall_user user on cart.user_id = user.user_id
-        where cart.user_id = #{userId} and user.deleted != 1 and goods.deleted != 1 and cart.goods_num != 0
+        where cart.user_id = #{userId} and cart.deleted != 1 and user.deleted != 1 
+              and goods.deleted != 1 and cart.goods_num != 0
+              and cart.check_set != 1
     </select>
 </mapper>

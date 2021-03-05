@@ -56,7 +56,7 @@ public class MallOrderController {
             orderGoodsService.save(orderGoods);
             //更新购物车已经被收为订单
             UpdateWrapper<MallCart> wrapper = new UpdateWrapper<>();
-            wrapper.eq("cart_id",mallCart.getCartId()).set("check",0);
+            wrapper.eq("cart_id",mallCart.getCartId()).set("check_set",1);
             cartService.update(wrapper);
         }
         if (orderService.save(order)) {
@@ -78,10 +78,8 @@ public class MallOrderController {
     }
 
     @RequestMapping("/listByUser")
-    public Result listOrders(Integer userId){
-        QueryWrapper<MallOrder> wrapper = new QueryWrapper<>();
-        wrapper.ne("deleted",1);
-        return Result.success(orderService.list(wrapper));
+    public Result listOrders(Integer userId,Integer current,Integer size){
+        return orderService.listByUserId(userId,current,size);
     }
 
     @RequestMapping("/update")
