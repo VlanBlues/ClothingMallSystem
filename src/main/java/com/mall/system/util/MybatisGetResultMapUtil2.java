@@ -2,6 +2,7 @@ package com.mall.system.util;
 
 
 import com.mall.system.entity.MallCart;
+import com.mall.system.entity.MallCollection;
 import com.mall.system.entity.MallUser;
 
 import java.lang.reflect.Field;
@@ -118,7 +119,7 @@ public class MybatisGetResultMapUtil2 {
         //所有属性
         System.out.println("------------------------------------------------------------------------");
         System.out.println(getAllField(a.getClass()));*/
-        MallCart a = new MallCart();
+        MallCollection a = new MallCollection();
         System.out.println(getResultMap(a.getClass()));
     }
 

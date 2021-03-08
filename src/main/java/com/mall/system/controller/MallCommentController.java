@@ -32,7 +32,6 @@ public class MallCommentController {
 
     @RequestMapping("/add")
     public Result addComment(MallComment comment) {
-        comment.setAddTime(DateUtil.getStringDate());
         if (commentService.save(comment)) {
             return Result.success("评论成功！");
         }

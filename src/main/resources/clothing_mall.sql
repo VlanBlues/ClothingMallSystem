@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2021-03-05 17:26:33
+Date: 2021-03-08 17:13:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,13 +34,14 @@ CREATE TABLE `mall_address` (
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`address_id`) USING BTREE,
   KEY `user_id` (`user_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='收货地址表';
+) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='收货地址表';
 
 -- ----------------------------
 -- Records of mall_address
 -- ----------------------------
 INSERT INTO `mall_address` VALUES ('80', 'test001', '204', '北京市', '市辖区', '东城区', '测试地址', '13495626648', '0', '2021-03-04 14:31:58', '2021-03-04 14:31:58', '0');
 INSERT INTO `mall_address` VALUES ('81', 'test002', '204', '内蒙古自治区', '赤峰市', '阿鲁科尔沁旗', '测试', '13695422889', '0', '2021-03-04 14:33:28', '2021-03-04 14:33:28', '0');
+INSERT INTO `mall_address` VALUES ('82', 'tesst', '201', '山西省', '阳泉市', '郊区', 'test', '13456857756', '0', '2021-03-08 14:47:09', '2021-03-08 14:47:09', '0');
 
 -- ----------------------------
 -- Table structure for mall_admin
@@ -77,7 +78,7 @@ CREATE TABLE `mall_cart` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` int(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`cart_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of mall_cart
@@ -87,6 +88,7 @@ INSERT INTO `mall_cart` VALUES ('25', '204', 'nz2021022802', '1', '1', '2021-03-
 INSERT INTO `mall_cart` VALUES ('26', '204', 'cs2021022807', '1', '1', '2021-03-05 16:15:19', '2021-03-05 16:16:01', '0');
 INSERT INTO `mall_cart` VALUES ('27', '204', 'fy2021022808', '1', '1', '2021-03-05 16:15:32', '2021-03-05 16:16:01', '0');
 INSERT INTO `mall_cart` VALUES ('28', '204', 'cs2021022803', '0', '1', '2021-03-05 16:53:26', '2021-03-05 16:53:26', '0');
+INSERT INTO `mall_cart` VALUES ('29', '201', 'cs2021022805', '1', '1', '2021-03-08 14:46:26', '2021-03-08 14:47:19', '0');
 
 -- ----------------------------
 -- Table structure for mall_category
@@ -113,6 +115,24 @@ INSERT INTO `mall_category` VALUES ('100101310', '皮衣', '2021-02-28 21:28:31'
 INSERT INTO `mall_category` VALUES ('100101311', '卫裤', '2021-02-28 21:29:00', '2021-02-28 21:29:00', '0');
 
 -- ----------------------------
+-- Table structure for mall_collection
+-- ----------------------------
+DROP TABLE IF EXISTS `mall_collection`;
+CREATE TABLE `mall_collection` (
+  `collection_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `goods_id` int(11) DEFAULT NULL COMMENT '货物sn',
+  `add_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` int(1) DEFAULT '0' COMMENT '逻辑删除',
+  PRIMARY KEY (`collection_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of mall_collection
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for mall_comment
 -- ----------------------------
 DROP TABLE IF EXISTS `mall_comment`;
@@ -120,18 +140,19 @@ CREATE TABLE `mall_comment` (
   `comment_id` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(1023) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '评论内容',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
-  `order_goods_id` int(11) DEFAULT NULL,
+  `goods_sn` varchar(1000) DEFAULT NULL,
   `order_id` int(11) DEFAULT NULL,
   `star` smallint(6) DEFAULT '1' COMMENT '评分， 1-5',
   `add_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`comment_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1023 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='评论表';
+) ENGINE=InnoDB AUTO_INCREMENT=1029 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='评论表';
 
 -- ----------------------------
 -- Records of mall_comment
 -- ----------------------------
+INSERT INTO `mall_comment` VALUES ('1028', '东方闪电三个三', '201', 'cs2021022805', '175', '5', '2021-03-08 15:46:36', '2021-03-08 15:46:36', '0');
 
 -- ----------------------------
 -- Table structure for mall_goods
@@ -238,13 +259,14 @@ CREATE TABLE `mall_order` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`order_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=175 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='订单表';
 
 -- ----------------------------
 -- Records of mall_order
 -- ----------------------------
 INSERT INTO `mall_order` VALUES ('173', '204', '81', '20210305040209262', '1', '', '607.00', null, null, null, null, '2021-03-05 16:02:09', '2021-03-05 16:02:09', '0');
 INSERT INTO `mall_order` VALUES ('174', '204', '81', '20210305041601758', '1', '', '1045.00', null, null, null, null, '2021-03-05 16:16:01', '2021-03-05 16:16:01', '0');
+INSERT INTO `mall_order` VALUES ('175', '201', '82', '20210308024719483', '1', '', '100.00', null, null, null, null, '2021-03-08 14:47:19', '2021-03-08 14:47:19', '0');
 
 -- ----------------------------
 -- Table structure for mall_order_goods
@@ -259,7 +281,7 @@ CREATE TABLE `mall_order_goods` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` tinyint(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of mall_order_goods
@@ -268,6 +290,7 @@ INSERT INTO `mall_order_goods` VALUES ('13', '20210305040209262', 'cs2021022803'
 INSERT INTO `mall_order_goods` VALUES ('14', '20210305040209262', 'nz2021022802', '1', '2021-03-05 16:02:09', '2021-03-05 16:02:09', '0');
 INSERT INTO `mall_order_goods` VALUES ('15', '20210305041601758', 'cs2021022807', '1', '2021-03-05 16:16:01', '2021-03-05 16:16:01', '0');
 INSERT INTO `mall_order_goods` VALUES ('16', '20210305041601758', 'fy2021022808', '1', '2021-03-05 16:16:01', '2021-03-05 16:16:01', '0');
+INSERT INTO `mall_order_goods` VALUES ('17', '20210308024719483', 'cs2021022805', '1', '2021-03-08 14:47:19', '2021-03-08 14:47:19', '0');
 
 -- ----------------------------
 -- Table structure for mall_user
@@ -296,6 +319,6 @@ CREATE TABLE `mall_user` (
 -- Records of mall_user
 -- ----------------------------
 INSERT INTO `mall_user` VALUES ('200', 'user', 'dXNlcg==', '1', '2021-02-17', null, '', 'lan', '79475816882', 'http://localhost:8089/img/cat.jpg', '0', '2021-02-27 23:42:26', '2021-02-27 23:42:26', '0');
-INSERT INTO `mall_user` VALUES ('201', 'test001', 'dGVzdDAwMQ==', '2', '2021-02-12', '2021-03-02 17:08:20', '127.0.0.1', 'test', '13735906695', 'http://localhost:8089/img/cat.jpg', '0', '2021-02-27 23:41:24', '2021-03-02 17:08:20', '0');
+INSERT INTO `mall_user` VALUES ('201', 'test001', 'dGVzdDAwMQ==', '2', '2021-02-12', '2021-03-08 14:46:12', '127.0.0.1', 'test', '13735906695', 'http://localhost:8089/img/cat.jpg', '0', '2021-02-27 23:41:24', '2021-03-08 14:46:12', '0');
 INSERT INTO `mall_user` VALUES ('203', 'qqq', 'MTIzNDU2', '1', '2020-10-17', null, '', 's', '794642131', 'http://localhost:8089/img/678c90c3772e44f28979a755a6e979f4.jpg', '0', '2021-02-27 23:46:07', '2021-02-28 00:17:01', '1');
 INSERT INTO `mall_user` VALUES ('204', 'test002', 'dGVzdDAwMg==', '0', null, '2021-03-03 09:55:13', '127.0.0.1', '', '', '', '0', '2021-03-03 09:50:21', '2021-03-03 09:55:13', '0');

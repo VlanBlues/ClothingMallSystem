@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mall.system.mapper.MallCollectionMapper">
+    <resultMap id="CollectionResultMap" type="com.mall.system.entity.MallCollection">
+        <id column="coll_collection_id" property="collectionId"/>
+        <result column="coll_user_id" property="userId"/>
+        <result column="coll_goods_id" property="goodsId"/>
+        <result column="coll_add_time" property="addTime"/>
+        <result column="coll_update_time" property="updateTime"/>
+        <result column="coll_deleted" property="deleted"/>
+        <association property="mallGoods" javaType="com.mall.system.entity.MallGoods"
+                     resultMap="com.mall.system.mapper.MallGoodsMapper.GoodsResultMap"/>
+    </resultMap>
+    <sql id="MallCollectionColumn">
+        select
+            coll.collection_id as coll_collection_id,
+            coll.user_id       as coll_user_id,
+            coll.goods_id      as coll_goods_id,
+            coll.add_time      as coll_add_time,
+            coll.update_time   as coll_update_time,
+            coll.deleted       as coll_deleted
+        from mall_collection coll
+    </sql>
+    <select id="listByUserId" resultMap="CollectionResultMap">
+        select
+            coll.collection_id as coll_collection_id,
+            coll.user_id       as coll_user_id,
+            coll.goods_id      as coll_goods_id,
+            coll.add_time      as coll_add_time,
+            coll.update_time   as coll_update_time,
+            coll.deleted       as coll_deleted,
+            goods.*
+        from mall_collection coll left join mall_goods goods 
+                on coll.goods_id = goods.goods_id
+        where coll.deleted != 1 and goods.deleted != 1 and coll.user_id = #{userId}
+    </select>
+</mapper>

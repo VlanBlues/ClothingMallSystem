@@ -9,45 +9,30 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 评论表
+ * 
  * </p>
  *
  * @author lan
- * @since 2021-02-19
+ * @since 2021-03-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class MallComment implements Serializable {
+public class MallCollection implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "comment_id", type = IdType.AUTO)
-    private Integer commentId;
+    @TableId(value = "collection_id", type = IdType.AUTO)
+    private Integer collectionId;
 
     /**
-     * 评论内容
-     */
-    private String content;
-
-    /**
-     * 用户表的用户ID
+     * 用户id
      */
     private Integer userId;
 
     /**
-     * 订单id
+     * 货物Id
      */
-    private Integer orderId;
-
-    /**
-     * 订单货物sn
-     */
-    private String goodsSn;
-
-    /**
-     * 评分， 1-5
-     */
-    private Integer star;
+    private Integer goodsId;
 
     /**
      * 创建时间
@@ -62,13 +47,9 @@ public class MallComment implements Serializable {
     /**
      * 逻辑删除
      */
-    private Integer deleted;
+    private int deleted;
 
     @TableField(exist = false)
-    private MallGoods goods;
-
-    @TableField(exist = false)
-    private MallUser user;
-
+    private MallGoods mallGoods;
 
 }

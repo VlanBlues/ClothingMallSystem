@@ -67,7 +67,6 @@ public class MallAddressController {
 
     @RequestMapping("/update")
     public Result updateAddress(MallAddress address){
-        address.setUpdateTime(DateUtil.getStringDate());
         if (addressService.saveOrUpdate(address)) {
             return Result.success("地址修改成功！");
         }
