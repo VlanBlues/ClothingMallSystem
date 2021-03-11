@@ -10,6 +10,8 @@ import com.mall.system.util.Result;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -28,7 +30,7 @@ public class MallCollectionController {
     @PostMapping("/addOrUpdate")
     public Result addAddress(@RequestBody MallCollection collection){
         QueryWrapper<MallCollection> wrapper = new QueryWrapper<>();
-        wrapper.eq("goods_sn",collection.getGoodsId()).eq("user_id",collection.getUserId());
+        wrapper.eq("goods_id",collection.getGoodsId()).eq("user_id",collection.getUserId());
         MallCollection mallCollection = collectionService.getOne(wrapper);
         if(null == mallCollection){
             if (collectionService.save(collection)) {
@@ -36,7 +38,7 @@ public class MallCollectionController {
             }
         }else {
             UpdateWrapper<MallCollection> updateWrapper = new UpdateWrapper<>();
-            wrapper.eq("collection_id",mallCollection.getCollectionId());
+            updateWrapper.eq("collection_id",mallCollection.getCollectionId());
             if(mallCollection.getDeleted() == 1){
                 updateWrapper.set("deleted",0);
                 if(collectionService.update(updateWrapper)){
@@ -56,5 +58,19 @@ public class MallCollectionController {
     @RequestMapping("/listByUserId")
     public Result listByUserId(Integer userId){
        return collectionService.listByUserId(userId);
+    }
+    
+    @RequestMapping("/getCollectionState")
+    public Result getCollectionState(MallCollection collection){
+        QueryWrapper<MallCollection> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id",collection.getUserId()).eq("goods_id",collection.getGoodsId());
+        MallCollection collection1 = collectionService.getOne(wrapper);
+        Map<String, Object> map = new HashMap<>();
+        if(null == collection1 || collection1.getDeleted() == 1){
+            map.put("state",false);
+            return Result.success("",map);
+        }
+        map.put("state",true);
+        return Result.success("",map);
     }
 }

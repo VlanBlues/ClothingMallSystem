@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -108,5 +110,11 @@ public class MallGoods implements Serializable {
 
     @TableField(exist = false)
     private Integer buyNum;
+
+    @TableField(exist = false)
+    private MallComment comment;
+
+    @TableField(exist = false)
+    private List<MallComment> commentList;
 
 }

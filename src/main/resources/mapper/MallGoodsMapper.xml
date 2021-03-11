@@ -19,6 +19,8 @@
         <result column="sales" property="sales" />
         <result column="deleted" property="deleted" />
         <result column="buy_num" property="buyNum"/>
+        <association property="comment" javaType="com.mall.system.entity.MallComment"
+                     resultMap="com.mall.system.mapper.MallCommentMapper.CommentResult"/>
     </resultMap>
     
     <select id="queryByOrderSn" resultType="com.mall.system.entity.MallGoods">
@@ -26,6 +28,7 @@
         from mall_goods a 
             right join mall_order_goods b 
                 on a.goods_sn = b.goods_sn 
+             
         where a.deleted != 1 and b.deleted != 1 and b.order_sn = #{orderSn}
         
     </select>

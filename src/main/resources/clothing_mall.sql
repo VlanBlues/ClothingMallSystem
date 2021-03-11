@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2021-03-08 17:13:59
+Date: 2021-03-11 17:39:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -126,11 +126,15 @@ CREATE TABLE `mall_collection` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` int(1) DEFAULT '0' COMMENT '逻辑删除',
   PRIMARY KEY (`collection_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of mall_collection
 -- ----------------------------
+INSERT INTO `mall_collection` VALUES ('3', '201', '23878', '2021-03-09 10:11:41', '2021-03-11 11:09:48', '0');
+INSERT INTO `mall_collection` VALUES ('4', '201', '23859', '2021-03-11 11:05:30', '2021-03-11 11:11:16', '0');
+INSERT INTO `mall_collection` VALUES ('5', '201', '23866', '2021-03-11 11:22:12', '2021-03-11 11:22:12', '0');
+INSERT INTO `mall_collection` VALUES ('6', '201', '23872', '2021-03-11 11:23:29', '2021-03-11 11:23:29', '0');
 
 -- ----------------------------
 -- Table structure for mall_comment
@@ -141,7 +145,7 @@ CREATE TABLE `mall_comment` (
   `content` varchar(1023) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '评论内容',
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户表的用户ID',
   `goods_sn` varchar(1000) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
+  `order_sn` varchar(100) DEFAULT NULL,
   `star` smallint(6) DEFAULT '1' COMMENT '评分， 1-5',
   `add_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

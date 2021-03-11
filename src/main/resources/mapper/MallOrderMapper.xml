@@ -18,7 +18,8 @@
         <association property="user" javaType="com.mall.system.entity.MallOrder"
                      resultMap="com.mall.system.mapper.MallUserMapper.UserResultMap"/>
         <collection property="goodsList" javaType="java.util.ArrayList" ofType="com.mall.system.entity.MallGoods"
-                    select="com.mall.system.mapper.MallGoodsMapper.queryByOrderSn" column="{orderSn=order_sn}"/>
+                    select="com.mall.system.mapper.MallGoodsMapper.queryByOrderSn" column="{orderSn=order_sn,orderId=order_id,
+                    }"/>
     </resultMap>
 
     <select id="listByUserId" resultMap="OrderResultMap">
