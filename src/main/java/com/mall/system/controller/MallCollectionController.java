@@ -51,15 +51,15 @@ public class MallCollectionController {
                 }
             }
         }
-        
+
         return Result.fail("收藏操作失败！");
     }
 
     @RequestMapping("/listByUserId")
-    public Result listByUserId(Integer userId){
-       return collectionService.listByUserId(userId);
+    public Result listByUserId(String goodsSn,Integer userId,Integer current,Integer size){
+       return collectionService.listByUserId(goodsSn,userId,current,size);
     }
-    
+
     @RequestMapping("/getCollectionState")
     public Result getCollectionState(MallCollection collection){
         QueryWrapper<MallCollection> wrapper = new QueryWrapper<>();

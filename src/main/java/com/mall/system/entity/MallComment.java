@@ -37,7 +37,7 @@ public class MallComment implements Serializable {
     /**
      * 订单Sn
      */
-    private Integer orderSn;
+    private String orderSn;
 
     /**
      * 订单货物sn

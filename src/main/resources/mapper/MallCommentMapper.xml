@@ -44,9 +44,15 @@
                 on a.user_id = user.user_id
             left join mall_goods c
                 on c.goods_sn =a.goods_sn
-        where a.deleted != 1 
-              and user.deleted != 1 
+        where a.deleted != 1
+              and user.deleted != 1
               and c.deleted != 1
+        <if test="goodsSn != null and goodsSn != ''">
+            and a.goods_sn = #{goodsSn}
+        </if>
+        <if test="userId != null and userId != ''" >
+            and a.user_id = #{userId}
+        </if>
     </select>
 
 </mapper>

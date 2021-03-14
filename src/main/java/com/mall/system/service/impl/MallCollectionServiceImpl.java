@@ -1,5 +1,7 @@
 package com.mall.system.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mall.system.entity.MallCollection;
 import com.mall.system.mapper.MallCollectionMapper;
 import com.mall.system.service.IMallCollectionService;
@@ -23,10 +25,11 @@ public class MallCollectionServiceImpl extends ServiceImpl<MallCollectionMapper,
 
     @Resource
     private MallCollectionMapper collectionMapper;
-    
+
     @Override
-    public Result listByUserId(Integer userId) {
-        List<MallCollection> mallCollections = collectionMapper.listByUserId(userId);
+    public Result listByUserId(String goodsSn,Integer userId,Integer current,Integer size) {
+        IPage<MallCollection> page = new Page<>(current,size);
+        Page<MallCollection> mallCollections = collectionMapper.listByUserId(goodsSn,userId,page);
         return Result.success(mallCollections);
     }
 }

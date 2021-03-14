@@ -10,11 +10,7 @@ import com.mall.system.entity.MallUser;
 import com.mall.system.service.IMallUserService;
 import com.mall.system.util.*;
 import io.netty.util.internal.StringUtil;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -36,12 +32,12 @@ public class MallUserController {
 
     @RequestMapping("/login")
     public Result login(@RequestBody MallUser user, HttpServletRequest request){
-        user.setPassword(EncryptUtil.Base64Encode(user.getPassword().trim()));
+//        user.setPassword(EncryptUtil.Base64Encode(user.getPassword().trim()));
         QueryWrapper<MallUser> wrapper = new QueryWrapper<>();
         wrapper.eq("username",user.getUsername()).eq("password",user.getPassword())
                 .ne("deleted",1);
         MallUser mallUser = userService.getOne(wrapper);
-        if(!StringUtil.isNullOrEmpty(mallUser.getUsername())){
+        if(null != mallUser){
             UpdateWrapper<MallUser> updateWrapper = new UpdateWrapper<>();
             updateWrapper.eq("username",user.getUsername()).set("last_login_time",DateUtil.getStringDate())
                     .set("last_login_ip",IpUtil.getIpAddr(request));
@@ -59,18 +55,16 @@ public class MallUserController {
         if(userService.count(wrapper) > 1){
             return Result.fail("用户名已存在");
         }
-        user.setAddTime(DateUtil.getStringDate());
         if(userService.saveOrUpdate(user)){
             return Result.success("注册成功！");
         }
         return Result.fail("注册失败！");
     }
 
-    @RequestMapping("/update")
-    public Result updateUser(MallUser user){
-        user.setUpdateTime(DateUtil.getStringDate());
+    @PostMapping("/update")
+    public Result updateUser(@RequestBody MallUser user){
         if(userService.updateById(user)){
-            return Result.success("更新成功！");
+            return Result.success("更新成功！",userService.getById(user.getUserId()));
         }
         return Result.fail("更新失败！");
     }

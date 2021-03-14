@@ -39,10 +39,10 @@
             left join mall_user user
                 on a.user_id = user.user_id
         where a.deleted != 1 and user.deleted != 1
-        <if test="userId != null">
+        <if test="userId != null and userId != ''">
             and a.user_id like concat('%',#{userId},'%')
         </if>
-        <if test="name != null">
+        <if test="name != null and name != ''">
             and a.name like concat('%',#{name},'%')
         </if>
     </select>

@@ -13,5 +13,5 @@ import com.mall.system.util.Result;
  * @since 2021-03-08
  */
 public interface IMallCollectionService extends IService<MallCollection> {
-    Result listByUserId(Integer userId);
+    Result listByUserId(String goodsSn,Integer userId,Integer current,Integer size);
 }

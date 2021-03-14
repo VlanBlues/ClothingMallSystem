@@ -111,10 +111,13 @@ public class MallGoods implements Serializable {
     @TableField(exist = false)
     private Integer buyNum;
 
-    @TableField(exist = false)
-    private MallComment comment;
+    /*@TableField(exist = false)
+    private MallComment comment;*/
 
     @TableField(exist = false)
     private List<MallComment> commentList;
+
+    @TableField(exist = false)
+    private Integer isComment;//是否评论
 
 }

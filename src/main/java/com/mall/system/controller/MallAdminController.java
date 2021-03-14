@@ -71,7 +71,7 @@ public class MallAdminController {
         return Result.fail("注册失败！");
     }
 
-    @RequestMapping("/update")
+    @RequestMapping("/updatePassword")
     public Result updateAdmin(MallAdmin admin){
         if(adminService.updateById(admin)){
             return Result.success("更新成功！");

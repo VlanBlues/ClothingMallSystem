@@ -30,8 +30,14 @@
             coll.update_time   as coll_update_time,
             coll.deleted       as coll_deleted,
             goods.*
-        from mall_collection coll left join mall_goods goods 
+        from mall_collection coll left join mall_goods goods
                 on coll.goods_id = goods.goods_id
-        where coll.deleted != 1 and goods.deleted != 1 and coll.user_id = #{userId}
+        where coll.deleted != 1 and goods.deleted != 1
+        <if test="userId != null and userId != '' ">
+            and coll.user_id = #{userId}
+        </if>
+        <if test="goodsSn != null and goodsSn != '' ">
+            and goods.goods_sn = #{goodsSn}
+        </if>
     </select>
 </mapper>

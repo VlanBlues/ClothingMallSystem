@@ -19,17 +19,20 @@
         <result column="sales" property="sales" />
         <result column="deleted" property="deleted" />
         <result column="buy_num" property="buyNum"/>
-        <association property="comment" javaType="com.mall.system.entity.MallComment"
-                     resultMap="com.mall.system.mapper.MallCommentMapper.CommentResult"/>
+        <result column="isComment" property="isComment"/>
+        <!--<association property="comment" javaType="com.mall.system.entity.MallComment"
+                     resultMap="com.mall.system.mapper.MallCommentMapper.CommentResult"/>-->
     </resultMap>
-    
+
     <select id="queryByOrderSn" resultType="com.mall.system.entity.MallGoods">
-        select a.*,b.num buy_num
-        from mall_goods a 
-            right join mall_order_goods b 
-                on a.goods_sn = b.goods_sn 
-             
+        select a.*,b.num buy_num,case when comm.comment_id is not null then 1 else 0 end is_comment
+        from mall_goods a
+                 right join mall_order_goods b
+                            on a.goods_sn = b.goods_sn
+                 left join mall_comment comm
+                           on comm.goods_sn =  a.goods_sn
+
         where a.deleted != 1 and b.deleted != 1 and b.order_sn = #{orderSn}
-        
+
     </select>
 </mapper>

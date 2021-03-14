@@ -15,5 +15,5 @@ import java.util.List;
  * @since 2021-02-19
  */
 public interface IMallCommentService extends IService<MallComment> {
-    Result listComment(Integer current, Integer size);
+    Result listComment(Integer userId,String goodsSn ,Integer current, Integer size);
 }

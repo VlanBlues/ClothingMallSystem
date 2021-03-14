@@ -36,9 +36,15 @@
             user.status as user_status,
             user.add_time as user_add_time,
             user.update_time as user_update_time
-        from mall_order a 
-            left join mall_user user 
+        from mall_order a
+            left join mall_user user
                 on a.user_id = user.user_id
-        where a.user_id = #{userId} and a.deleted != 1 and user.deleted != 1
+        where a.deleted != 1 and user.deleted != 1
+        <if test="userId != null and userId != ''">
+            and a.user_id = #{userId}
+        </if>
+        <if test="orderSn != null and orderSn != ''">
+            and a.order_sn = #{orderSn}
+        </if>
     </select>
 </mapper>

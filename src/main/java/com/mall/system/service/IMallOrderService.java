@@ -15,5 +15,5 @@ import java.util.List;
  * @since 2021-02-19
  */
 public interface IMallOrderService extends IService<MallOrder> {
-    Result listByUserId(Integer userId,Integer current,Integer size);
+    Result listByUserId(String orderSn,Integer userId,Integer current,Integer size);
 }

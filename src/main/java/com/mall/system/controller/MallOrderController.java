@@ -35,10 +35,10 @@ public class MallOrderController {
 
     @Resource
     private IMallOrderService orderService;
-    
+
     @Resource
     private IMallCartService cartService;
-    
+
     @Resource
     private IMallOrderGoodsService orderGoodsService;
 
@@ -47,7 +47,10 @@ public class MallOrderController {
     public Result addOrders(@RequestBody MallOrder order){
         //订单编号
         String orderSn = DateUtil.getNo(3);
+        String shipSn = "wl"+DateUtil.getRandom(10);
+        //物流单号
         order.setOrderSn(orderSn);
+        order.setShipSn(shipSn);
         for (MallCart mallCart : order.getCartList()) {
             MallOrderGoods orderGoods = new MallOrderGoods();
             orderGoods.setOrderSn(orderSn);
@@ -65,12 +68,12 @@ public class MallOrderController {
         return Result.fail("订单创建失败！");
     }
 
-    @RequestMapping("/delete")
-    public Result deleteOrders(Integer orderId,String orderSn){
+    @PostMapping("/delete")
+    public Result deleteOrders(@RequestBody MallOrder order){
         UpdateWrapper<MallOrder> wrapper = new UpdateWrapper<>();
-        wrapper.eq("order_id",orderId).set("deleted",1);
+        wrapper.eq("order_id",order.getOrderId()).set("deleted",1);
         UpdateWrapper<MallOrderGoods> orderGoodsUpdateWrapper = new UpdateWrapper<>();
-        orderGoodsUpdateWrapper.eq("order_sn",orderSn).set("deleted",1);
+        orderGoodsUpdateWrapper.eq("order_sn",order.getOrderSn()).set("deleted",1);
         if (orderService.update(wrapper) && orderGoodsService.update(orderGoodsUpdateWrapper)) {
             return Result.success("删除成功！");
         }
@@ -78,16 +81,51 @@ public class MallOrderController {
     }
 
     @RequestMapping("/listByUser")
-    public Result listOrders(Integer userId,Integer current,Integer size){
-        return orderService.listByUserId(userId,current,size);
+    public Result listOrders(String orderSn,Integer userId,Integer current,Integer size){
+        return orderService.listByUserId(orderSn,userId,current,size);
     }
 
     @RequestMapping("/update")
     public Result updateOrders(MallOrder order){
-        order.setUpdateTime(DateUtil.getStringDate());
         if (orderService.saveOrUpdate(order)) {
             return Result.success("修改成功！");
         }
         return Result.fail("修改失败！");
+    }
+
+    //发货
+    @PostMapping("/ship")
+    public Result shipOrders(@RequestBody MallOrder order){
+        UpdateWrapper<MallOrder> wrapper = new UpdateWrapper<>();
+        wrapper.eq("order_id",order.getOrderId()).set("order_status",2);
+        boolean update = orderService.update(wrapper);
+        if(update){
+            return Result.success("发货成功！");
+        }
+        return Result.fail("发货失败！");
+    }
+
+    //收货
+    @PostMapping("/receive")
+    public Result receive(@RequestBody MallOrder order){
+        UpdateWrapper<MallOrder> wrapper = new UpdateWrapper<>();
+        wrapper.eq("order_id",order.getOrderId()).set("order_status",3);
+        boolean update = orderService.update(wrapper);
+        if(update){
+            return Result.success("收货成功！");
+        }
+        return Result.fail("收货失败！");
+    }
+
+    //取消
+    @PostMapping("/cancel")
+    public Result cancel(@RequestBody MallOrder order){
+        UpdateWrapper<MallOrder> wrapper = new UpdateWrapper<>();
+        wrapper.eq("order_id",order.getOrderId()).set("order_status",4);
+        boolean update = orderService.update(wrapper);
+        if(update){
+            return Result.success("取消订单成功！");
+        }
+        return Result.fail("取消订单失败！");
     }
 }

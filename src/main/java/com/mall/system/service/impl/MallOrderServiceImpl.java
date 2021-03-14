@@ -25,11 +25,11 @@ public class MallOrderServiceImpl extends ServiceImpl<MallOrderMapper, MallOrder
 
     @Resource
     private MallOrderMapper orderMapper;
-    
+
     @Override
-    public Result listByUserId(Integer userId, Integer current, Integer size) {
+    public Result listByUserId(String orderSn,Integer userId, Integer current, Integer size) {
         IPage<MallOrder> page = new Page<>(current,size);
-        List<MallOrder> orderList = orderMapper.listByUserId(userId, page);
+        Page<MallOrder> orderList = orderMapper.listByUserId(orderSn,userId, page);
         return Result.success(orderList);
     }
 }

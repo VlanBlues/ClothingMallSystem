@@ -24,12 +24,12 @@ public class MallCommentServiceImpl extends ServiceImpl<MallCommentMapper, MallC
 
     @Resource
     private MallCommentMapper commentMapper;
-    
+
     @Override
-    public Result listComment(Integer current, Integer size) {
+    public Result listComment(Integer userId,String goodsSn ,Integer current, Integer size) {
         try {
             Page<MallComment> commentPage = new Page<>(current,size);
-            List<MallComment> commentList = commentMapper.listComment(commentPage);
+            Page<MallComment> commentList = commentMapper.listComment(userId,goodsSn,commentPage);
             return Result.success(commentList);
         }catch (Exception e){
             return Result.fail(e.getMessage());

@@ -16,5 +16,5 @@ import java.util.List;
  * @since 2021-02-19
  */
 public interface MallCommentMapper extends BaseMapper<MallComment> {
-    List<MallComment> listComment(Page<MallComment> mallCommentPage);
+    Page<MallComment> listComment(@Param("userId") Integer userId,@Param("goodsSn") String goodsSn, Page<MallComment> mallCommentPage);
 }

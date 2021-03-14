@@ -9,6 +9,8 @@ import com.mall.system.entity.MallComment;
 import com.mall.system.service.IMallCommentService;
 import com.mall.system.util.DateUtil;
 import com.mall.system.util.Result;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -37,20 +39,20 @@ public class MallCommentController {
         }
         return Result.fail("评论失败！");
     }
-    
-    @RequestMapping("/delete")
-    public Result deleteComment(Integer commentId){
+
+    @PostMapping("/delete")
+    public Result deleteComment(@RequestBody MallComment comment){
         UpdateWrapper<MallComment> wrapper = new UpdateWrapper<>();
-        wrapper.eq("comment_id",commentId).set("deleted",1);
+        wrapper.eq("comment_id",comment.getCommentId()).set("deleted",1);
         if (commentService.update(wrapper)) {
             return Result.success("评论删除成功！");
         }
         return Result.fail("评论删除失败！");
     }
-    
+
     @RequestMapping("/list")
-    public Result listComment(Integer current,Integer size){
-        
-        return commentService.listComment(current,size);
+    public Result listComment(Integer userId,String goodsSn ,Integer current,Integer size){
+
+        return commentService.listComment(userId,goodsSn,current,size);
     }
 }
